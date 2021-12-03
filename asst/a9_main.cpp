@@ -19,10 +19,21 @@ void test_L1_energy() { // Test L1 energy helper function. Returns two L1 energy
 };
 
 
+void test_vert_cme() {
+  Image pigbird("./Input/pigbird.png");
+  Image twocats("./Input/twocats.png");
+  Image pbl1 = vert_cumulative_energy_map(pigbird);
+  Image tcl1 = vert_cumulative_energy_map(twocats);
+  pbl1.write("./Output/test_vert_cme_pigbird.png");
+  tcl1.write("./Output/test_vert_cme_twocats.png");
+};
+
+
 int main() {
   clock_t start = clock();
 
   test_L1_energy();
+  test_vert_cme();
 
   clock_t end = clock();
   double duration = (end - start) * 1.0f / CLOCKS_PER_SEC;

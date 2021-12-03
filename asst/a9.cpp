@@ -41,6 +41,7 @@ Image gradientY(const Image &im, bool clamp) { // Helper function taken from PS0
 
 Image L1_energy(const Image &im) {
     // Compute L1 energy based on gradients based on E(I) = |I_x| + |I_y|
+    // Input: A normal color image.
     Image grad_x = gradientX(im);          // Get X gradient
     Image grad_y = gradientY(im);          // Get Y gradient
     Image output = grad_x + grad_y;        // Add together
@@ -49,8 +50,34 @@ Image L1_energy(const Image &im) {
 }
 
 
-Image cumulative_energy_map(const Image &im) {
-    
+Image vert_cumulative_energy_map(const Image &im) {
+    // Calculate cumulative energy map in the vertical direction.
+    // Input: A normal color image. Function computes L1 itself.
+    Image l1 = L1_energy(im);
+    Image cem(im.width(), im.height(), im.channels()); // Initialize output image
+
+    for (int x = 0; x < im.width(); x++) {                // Copy top row of input energy map
+        cem(x, 0) = l1(x, 0);
+    }
+
+    for (int h = 1; h < im.height(); h++) {     // Iterate over rows [1,...,n]
+        for (int w = 0; w < im.width(); w++) {
+            if (w == 0) {
+                cem(w, h) = l1(w, h) + min(cem(w, h-1), cem(w+1, h-1)); // Left edge case
+            }
+            else if (w == im.width() - 1) {
+                cem(w, h) = l1(w, h) + min(cem(w, h-1), cem(w-1, h-1)); // Right edge case
+            }
+            else {
+                cem(w, h) = l1(w, h) + min(cem(w, h-1), cem(w-1, h-1), cem(w+1, h-1));
+            }
+        }
+    }
+    return cem; // Return cumulative energy map
+}
+
+Image hori_cumulative_energy_map() {
+
 }
 
 
