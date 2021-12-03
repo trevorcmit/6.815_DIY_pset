@@ -1,8 +1,18 @@
+/* --------------------------------------------------------------------------
+ * File:    a9_main.cpp
+ * Created: 2021-12-2
+ * --------------------------------------------------------------------------
+ *
+ *
+ *
+ * ------------------------------------------------------------------------*/
+
+
 #include <iostream>
 #include "a9.h"
 #include "Image.h"
+#include "filtering.h"
 #include <iomanip>
-#include <iostream>
 #include <sstream>
 #include <vector>
 

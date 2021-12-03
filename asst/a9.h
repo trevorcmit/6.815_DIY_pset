@@ -1,10 +1,12 @@
 #ifndef A9_H_PHUDVTKB
 #define A9_H_PHUDVTKB
 
-// Write your declarations here, or extend the Makefile if you add source files
-Image gradientX(const Image &im, bool clamp);
+#include "Image.h"
+#include "basicImageManipulation.h"
+#include "filtering.h"
+#include <cmath>
 
-Image gradientY(const Image &im, bool clamp);
+// Write your declarations here, or extend the Makefile if you add source files
 
 Image L1_energy(const Image &im);
 
