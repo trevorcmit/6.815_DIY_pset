@@ -27,6 +27,8 @@ vector<int> vert_minimum_seam(const Image &cme);
 
 vector<int> hori_minimum_seam(const Image &cme);
 
-Image seam_carving(const Image &im);
+Image vertical_seam_carving(const Image &im, int N);
+
+Image horizontal_seam_carving(const Image &im, int N);
 
 #endif /* end of include guard: A9_H_PHUDVTKB */

@@ -98,6 +98,26 @@ void test_hori_seam() {
 }
 
 
+void test_vertical_seam_carving() {
+  Image pigbird("./Input/pigbird.png");                                 // Load images
+  Image twocats("./Input/twocats.png"); 
+  Image pb_carved = vertical_seam_carving(pigbird, pigbird.width()/3);  // Seam carve 1/3 of width
+  Image tc_carved = vertical_seam_carving(twocats, twocats.width()/3);
+  pb_carved.write("./Output/test_vertical_seam_carving_pigbird.png");   // Write to output
+  tc_carved.write("./Output/test_vertical_seam_carving_twocats.png");
+}
+
+
+void test_horizontal_seam_carving() {
+  Image pigbird("./Input/pigbird.png");                                   // Load images
+  Image twocats("./Input/twocats.png"); 
+  Image pb_carved = horizontal_seam_carving(pigbird, pigbird.width()/3);  // Seam carve 1/3 of width
+  Image tc_carved = horizontal_seam_carving(twocats, twocats.width()/3);
+  pb_carved.write("./Output/test_horizontal_seam_carving_pigbird.png");   // Write to output
+  tc_carved.write("./Output/test_horizontal_seam_carving_twocats.png");
+}
+
+
 int main() {
   clock_t start = clock();
 
@@ -106,6 +126,8 @@ int main() {
   test_hori_cme();
   test_vert_seam();
   test_hori_seam();
+  test_vertical_seam_carving();
+  test_horizontal_seam_carving();
 
   clock_t end = clock();
   double duration = (end - start) * 1.0f / CLOCKS_PER_SEC;

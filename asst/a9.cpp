@@ -172,7 +172,59 @@ vector<int> hori_minimum_seam(const Image &cme) {
 }
 
 
-Image seam_carving(const Image &im) {
-    Image output(im.width(), im.height(), im.channels());
-    return output;
+Image vertical_seam_carving(const Image &im, int N) {
+    // Seam carve an input image N number of times, removing vertical seams.
+    // Input: Three-channel input image.
+    // Output: Input image seam carved N number of times (width reduced by N).
+    vector<Image> carving; // Initialize vector to store in-progress carved images.
+    carving.push_back(im);
+
+    for (int n = 0; n < N; n++) {
+        Image vcme = vert_cumulative_energy_map(carving.at(n));    // Get cumulative energy map
+        vector<int> seam = vert_minimum_seam(vcme);                // Find current min. seam
+        Image current(im.width()-n-1, im.height(), im.channels()); // Initialize next carving
+
+        for (int h = 0; h < im.height(); h++) { // Iterate over all rows
+            int i = 0;
+            for (int w = 0; w < im.width()-n-1; w++) { // Iterate over current width
+                if (w != seam.at(N-1-n)) {             // Check that current index is not seam index
+                    current(i, h, 0) = carving.at(n)(w, h, 0);
+                    current(i, h, 1) = carving.at(n)(w, h, 1);
+                    current(i, h, 2) = carving.at(n)(w, h, 2);
+                    i += 1;
+                }
+            }
+        }
+        carving.push_back(current); // Add in-progress carved image to vector to call next iteration.
+    }
+    return carving.at(N); // Return final carved image, carved N number of times.
+}
+
+
+Image horizontal_seam_carving(const Image &im, int N) {
+    // Seam carve an input image N number of times, removing horizontal seams.
+    // Input: Three-channel input image.
+    // Output: Input image seam carved N number of times (height reduced by N).
+    vector<Image> carving; // Initialize vector to store in-progress carved images.
+    carving.push_back(im);
+
+    for (int n = 0; n < N; n++) {
+        Image hcme = hori_cumulative_energy_map(carving.at(n));    // Get cumulative energy map
+        vector<int> seam = hori_minimum_seam(hcme);                // Find current min. seam
+        Image current(im.width(), im.height()-n-1, im.channels()); // Initialize next carving
+
+        for (int w = 0; w < im.width(); w++) { // Iterate over all columns
+            int j = 0;
+            for (int h = 0; h < im.height()-n-1; h++) { // Iterate over current height
+                if (h != seam.at(N-1-n)) {              // Check that current index is not seam index
+                    current(w, j, 0) = carving.at(n)(w, h, 0);
+                    current(w, j, 1) = carving.at(n)(w, h, 1);
+                    current(w, j, 2) = carving.at(n)(w, h, 2);
+                    j += 1;
+                }
+            }
+        }
+        carving.push_back(current); // Add in-progress carved image to vector to call next iteration.
+    }
+    return carving.at(N); // Return final carved image, carved N number of times.
 }
