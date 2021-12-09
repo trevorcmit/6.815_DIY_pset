@@ -130,6 +130,18 @@ void test_object_removal_seam_carving() {
 }
 
 
+void test_object_removal_extra() {
+  Image soccer("./Input/soccer.png");   // Load images
+  Image skydive("./Input/skydive.png");
+  vector<int> soccer_vector = {39, 125, 13, 308};   // Define regions
+  vector<int> skydive_vector = {60, 161, 162, 238};
+  Image soccer_carved = object_removal_seam_carving(soccer, soccer_vector, true);     // vertical carve
+  Image skydive_carved = object_removal_seam_carving(skydive, skydive_vector, false); // horizontal carve
+  soccer_carved.write("./Output/test_object_removal_soccer.png");
+  skydive_carved.write("./Output/test_object_removal_skydive.png"); // Output into folder
+}
+
+
 
 int main() {
   clock_t start = clock();
@@ -142,6 +154,7 @@ int main() {
   test_vertical_seam_carving();
   test_horizontal_seam_carving();
   test_object_removal_seam_carving();
+  test_object_removal_extra();
 
   clock_t end = clock();
   double duration = (end - start) * 1.0f / CLOCKS_PER_SEC;

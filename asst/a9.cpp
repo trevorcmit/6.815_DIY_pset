@@ -349,6 +349,8 @@ Image optimal_order_seam_carving(const Image &im, int new_width, int new_height)
     // Input: Three-channel input image and target width and height of output image.
     // Output: Input image seam carved optimally to the target dimensions.
 
+    // INCOMPLETE!!! NO TEST CASE AND UNFINISHED.
+
     if (new_width == im.width()) {
         return horizontal_seam_carving(im, im.height() - new_height); // Case where width stays same
     }
