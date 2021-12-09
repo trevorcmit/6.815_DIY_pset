@@ -103,19 +103,32 @@ void test_vertical_seam_carving() {
   Image twocats("./Input/twocats.png"); 
   Image pb_carved = vertical_seam_carving(pigbird, pigbird.width()/3);  // Seam carve 1/3 of width
   Image tc_carved = vertical_seam_carving(twocats, twocats.width()/3);
-  pb_carved.write("./Output/test_vertical_seam_carving_pigbird.png");   // Write to output
-  tc_carved.write("./Output/test_vertical_seam_carving_twocats.png");
+  pb_carved.write("./Output/test_vertical_carving_pigbird.png");   // Write to output
+  tc_carved.write("./Output/test_vertical_carving_twocats.png");
 }
 
 
 void test_horizontal_seam_carving() {
   Image pigbird("./Input/pigbird.png");                                   // Load images
   Image twocats("./Input/twocats.png"); 
-  Image pb_carved = horizontal_seam_carving(pigbird, pigbird.width()/3);  // Seam carve 1/3 of width
-  Image tc_carved = horizontal_seam_carving(twocats, twocats.width()/3);
-  pb_carved.write("./Output/test_horizontal_seam_carving_pigbird.png");   // Write to output
-  tc_carved.write("./Output/test_horizontal_seam_carving_twocats.png");
+  Image pb_carved = horizontal_seam_carving(pigbird, pigbird.height()/3);  // Seam carve 1/3 of height
+  Image tc_carved = horizontal_seam_carving(twocats, twocats.height()/3);
+  pb_carved.write("./Output/test_horizontal_carving_pigbird.png");   // Write to output
+  tc_carved.write("./Output/test_horizontal_carving_twocats.png");
 }
+
+
+void test_object_removal_seam_carving() {
+  Image pigbird("./Input/pigbird.png");                                    // Load images
+  Image twocats("./Input/twocats.png"); 
+  vector<int> tc_vector = {184, 260, 40, 112};                             // Regions for removal
+  vector<int> pb_vector = {92, 178, 37, 155};
+  Image pb_carved = object_removal_seam_carving(pigbird, pb_vector, true); // Carve object
+  Image tc_carved = object_removal_seam_carving(twocats, tc_vector, true);
+  pb_carved.write("./Output/test_object_removal_pigbird.png");             // Write to output
+  tc_carved.write("./Output/test_object_removal_twocats.png");
+}
+
 
 
 int main() {
@@ -128,6 +141,7 @@ int main() {
   test_hori_seam();
   test_vertical_seam_carving();
   test_horizontal_seam_carving();
+  test_object_removal_seam_carving();
 
   clock_t end = clock();
   double duration = (end - start) * 1.0f / CLOCKS_PER_SEC;
